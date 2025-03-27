@@ -33,28 +33,35 @@ public unsafe class EasyWindow(GameWindowSettings? gameWindowSettings = null, Na
         if (IsExiting) return;
         GL.ClearColor(ClearColor);
         GL.Clear(ClearBufferMask);
-        Render(args);
+        if (ShouldRender()) {
+            Render(args);
 
-        ImGuiImplOpenGL3.NewFrame();
-        ImGuiImplGLFW.NewFrame();
-        ImGui.NewFrame();
+            ImGuiImplOpenGL3.NewFrame();
+            ImGuiImplGLFW.NewFrame();
+            ImGui.NewFrame();
 
-        ImGuiRender(args);
-        ImGui.Render();
-        ImGui.EndFrame();
-        ImGuiImplOpenGL3.RenderDrawData(ImGui.GetDrawData());
-        ImGui.UpdatePlatformWindows();
-        ImGui.RenderPlatformWindowsDefault();
+            ImGuiRender(args);
+            ImGui.Render();
+            ImGui.EndFrame();
+            ImGuiImplOpenGL3.RenderDrawData(ImGui.GetDrawData());
+            ImGui.UpdatePlatformWindows();
+            ImGui.RenderPlatformWindowsDefault();
+        }
         SwapBuffers();
         PostRender(args);
     }
 
     /// <summary>
-    /// Called after clearing
+    /// Should anything actually be rendered.
+    /// </summary>
+    protected virtual bool ShouldRender() { return true; }
+
+    /// <summary>
+    /// Called after clearing if ShouldRender is true
     /// </summary>
     protected virtual void Render(FrameEventArgs args) { }
     /// <summary>
-    /// Called after setting up ImGui frame
+    /// Called after setting up ImGui frame if ShouldRender is true
     /// </summary>
     protected virtual void ImGuiRender(FrameEventArgs args) { }
     /// <summary>
