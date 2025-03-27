@@ -4,7 +4,7 @@ using Hexa.NET.ImGui;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-
+using Vector2 = System.Numerics.Vector2;
 
 
 var nativeSettings = NativeWindowSettings.Default;
@@ -21,12 +21,10 @@ mw.Dispose();
 
 internal unsafe class MainWindow(GameWindowSettings s, NativeWindowSettings n) : EasyWindow(s,n) {
 
-    private Texture2D _testTex;
-
     protected override void OnLoad() {
         base.OnLoad();
         EasyResourceMan.LoadFontFromResx(Resources.consolas, "consolas", 16, 32, 48);
-        _testTex = EasyResourceMan.CreateTexture2D(Resources.testimg, 123, 128, "test");
+        EasyResourceMan.CreateTexture2D(Resources.testimg, 123, 128, "test");
     }
 
     protected override void ImGuiRender(FrameEventArgs args) {
@@ -40,7 +38,7 @@ internal unsafe class MainWindow(GameWindowSettings s, NativeWindowSettings n) :
         ImGui.PushFont(EasyResourceMan.GetFont("consolas", 48));
         ImGui.Text("Consolas 48");
         ImGui.PopFont();
-        ImGui.Image(_testTex.Texture, _testTex.Size);
+        ImGui.Image(EasyResourceMan.GetTexture("test").Texture, new Vector2(64));
         ImGui.End();
         
     }

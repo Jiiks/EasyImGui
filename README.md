@@ -25,11 +25,15 @@ internal unsafe class MainWindow : EasyWindow {
 ```cs
 // Load consolas from resources with sizes 16, 32 and 48.
 EasyResourceMan.LoadFontFromResx(Resources.consolas, "consolas", 16, 32, 48); 
+ImGui.PushFont(EasyResourceMan.GetFont("consolas", 16));
+ImGui.Text("Consolas 16");
+ImGui.PopFont();
 ````
 # Loading images:
 ```cs
 // Load image bytes from resources and create texture.
 EasyResourceMan.CreateTexture2D(Resources.testimg, 123, 128, "test");
+ImGui.Image(EasyResourceMan.GetTexture("test").Texture, new Vector2(64));
 ```
 
 

@@ -80,6 +80,9 @@ public unsafe static partial class EasyResourceMan {
 /// Textures
 public unsafe static partial class EasyResourceMan {
 
+    private static readonly List<Texture2D> _textures = [];
+    public static IEnumerable<Texture2D> GetTextures() => _textures;
+
     /// <summary>
     /// Create texture from byte*
     /// </summary>
@@ -111,13 +114,18 @@ public unsafe static partial class EasyResourceMan {
     public static Texture2D CreateTexture2D(ReadOnlySpan<byte> bytes, int width, int height, string name, int channels = 4) {
         fixed(byte* bytePtr = bytes) {
             var tex = CreateTexture2D(bytePtr, width, height);
-            return new Texture2D {
+            var texture = new Texture2D {
                 Name = name,
                 Size = new Vector2(width, height),
                 Channels = channels,
                 Texture = tex
             };
+            _textures.Add(texture);
         }
+
+        return GetTexture(name);
     }
+
+    public static Texture2D GetTexture(string name) => _textures.FirstOrDefault(t => t.Name ==  name);
 
 }
