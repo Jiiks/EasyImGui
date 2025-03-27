@@ -5,6 +5,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using System.ComponentModel;
 
 namespace EasyImGui;
 /// <inheritdoc/>
@@ -60,5 +61,12 @@ public unsafe class EasyWindow(GameWindowSettings? gameWindowSettings = null, Na
     /// Called post frame render and <see cref="GameWindow.SwapBuffers"/>
     /// </summary>
     protected virtual void PostRender(FrameEventArgs args) { }
+
+    /// <inheritdoc/>
+    protected override void OnClosing(CancelEventArgs e) {
+        ImGuiImplOpenGL3.Shutdown();
+        ImGuiImplGLFW.Shutdown();
+        ImGui.DestroyContext();
+    }
 
 }
