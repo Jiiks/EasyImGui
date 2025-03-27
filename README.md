@@ -12,7 +12,7 @@ var mw = new MainWindow();
 mw.Run();
 mw.Dispose();
 
-internal unsafe class MainWindow() : EasyWindow {
+internal unsafe class MainWindow : EasyWindow {
     protected override void ImGuiRender(FrameEventArgs args) {
         ImGui.Begin("Hello");
         ImGui.Text("World!");
